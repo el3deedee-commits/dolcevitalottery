@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Dolce Vita Lottery</title>
+    <style>
+        /* Sfondo con immagine della Toscana */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), 
+                        url('https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            text-align: center;
+            width: 85%;
+            max-width: 400px;
+        }
+
+        .number-display {
+            font-size: 80px;
+            font-weight: bold;
+            color: #d35400;
+            margin: 20px 0;
+        }
+
+        input {
+            width: 90%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .btn {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 18px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            font-weight: bold;
+            min-height: 24px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 style="color: #8b4513;">La Dolce Vita Lottery</h2>
+    <div id="game-area">
+        <button class="btn" onclick="estrai()">Estrai Numero</button>
+        <div id="num" class="number-display">?</div>
+        
+        <div id="input-zone" style="display:none;">
+            <input type="text" id="risposta" placeholder="Scrivi in lettere...">
+            <button class="btn" style="background-color: #e67e22;" onclick="controlla()">Verifica</button>
+            <div id="messaggio" class="feedback"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let numeroEstratto = 0;
+    let tentativi = 0;
+    const nomi = ["zero", "uno", "due", "tre", "quattro", "cinque", "sei", "sette", "otto", "nove", "dieci", "undici", "dodici", "tredici", "quattordici", "quindici", "sedici", "diciassette", "diciotto", "diciannove", "venti"];
+
+    function estrai() {
+        numeroEstratto = Math.floor(Math.random() * 21);
+        document.getElementById('num').innerText = numeroEstratto;
+        document.getElementById('input-zone').style.display = 'block';
+        document.getElementById('risposta').value = "";
+        document.getElementById('messaggio').innerText = "";
+        tentativi = 0;
+    }
+
+    function controlla() {
+        const rispostaUtente = document.getElementById('risposta').value.toLowerCase().trim();
+        const corretto = nomi[numeroEstratto];
+        const msg = document.getElementById('messaggio');
+
+        if (rispostaUtente === corretto) {
+            msg.innerText = "Bravissimo! ✅";
+            msg.style.color = "green";
+            setTimeout(estrai, 2000);
+        } else {
+            tentativi++;
+            if (tentativi < 2) {
+                msg.innerText = "Sbagliato! Hai un altro tentativo. ✍️";
+                msg.style.color = "orange";
+            } else {
+                msg.innerHTML = `Errore. Si scrive: <span style="color:#d35400">${corretto}</span>`;
+                msg.style.color = "red";
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
